@@ -11,8 +11,7 @@
     "test": "jest --forceExit",
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
-    "tslint": "tslint -c tslint.json -p tsconfig.json",
-    "copy-static-assets": "node copyStaticAssets.js"
+    "tslint": "tslint -c tslint.json -p tsconfig.json"
   },
   "author": "",
   "license": "ISC",
