@@ -1,4 +1,3 @@
-import "@types/chai";
 import {expect} from "chai";
 import * as pkg from "../src/";
 

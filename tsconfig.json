@@ -14,7 +14,8 @@
             ]
         },
         "types" : [
-            "chai"
+            "chai",
+            "node"
         ]
     },
     "include": [
