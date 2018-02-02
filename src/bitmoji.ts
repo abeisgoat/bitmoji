@@ -115,8 +115,8 @@ export class ImojiSearch {
       flag = "double";
     }
     return this.index.find(text, flag).map(match => {
-      const args = [match.src];
-      args.concat(character_ids);
+      let args = [match.src];
+      args = args.concat(character_ids);
       return GetImojiURLFromTemplate.apply(undefined, args);
     });
   }
