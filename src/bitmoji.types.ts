@@ -10,47 +10,47 @@ export interface Templates {
   etag: string;
 }
 
-interface Searchterm {
+export interface Searchterm {
   term: string;
 }
 
-interface Tagtile {
+export interface Tagtile {
   name: string;
   color: string;
 }
 
-interface Experiments {
+export interface Experiments {
   default_tab: string;
   settings_button_container: number;
 }
 
-interface Announcers {
+export interface Announcers {
   fashion_announcer: Fashionannouncer;
 }
 
-interface Fashionannouncer {
+export interface Fashionannouncer {
   id: number;
   enabled: boolean;
   link: string;
 }
 
-interface Outfits {
+export interface Outfits {
   version: number;
   male: Male;
   female: Male;
 }
 
-interface Male {
+export interface Male {
   brands: Brand[];
   showcase: Showcase[];
   fitting_room_template_id: string;
 }
 
-interface Showcase {
+export interface Showcase {
   image: string;
 }
 
-interface Brand {
+export interface Brand {
   id: number;
   name: string;
   logo: string;
@@ -63,7 +63,7 @@ interface Brand {
   outfits: Outfit[];
 }
 
-interface Outfit {
+export interface Outfit {
   id: number;
   outfit: string;
   has_custom_head: boolean;
@@ -72,7 +72,7 @@ interface Outfit {
   image: string;
 }
 
-interface Friend {
+export interface Friend {
   template_id: string;
   comic_id: string;
   src: string;

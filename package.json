@@ -1,16 +1,16 @@
 {
   "name": "bitmoji",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
-  "main": "index.js",
+  "main": "dist/bitmoji.js",
   "scripts": {
     "start": "npm run build && npm run watch",
-    "build": "npm run fmt && npm run build-ts && npm run tslint",
+    "build": "npm run fmt && npm run tslint && npm run build-ts",
     "serve": "node dist/server.js",
     "watch":
       "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\"  \"npm run watch-ts\" \"nodemon dist/index.js\"",
     "test": "jest --forceExit",
-    "build-ts": "tsc",
+    "build-ts": "tsc --declaration",
     "watch-ts": "tsc -w",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "fmt": "prettier --write **.js **.json"

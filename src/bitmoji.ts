@@ -7,7 +7,7 @@ const API_PATHS = {
   templates: "/content/templates?app_name=bitmoji"
 };
 
-type CharacterID = string;
+export type CharacterID = string;
 
 export async function isBitmojiIDWeaklyValid(id: CharacterID) {
   return id.split("_").length >= 2 && id.split("-").length == 2;
@@ -84,8 +84,8 @@ class Index<T> {
 }
 
 export class ImojiSearch {
-  templates: Templates;
-  index: Index<Imoji>;
+  private templates: Templates;
+  private index: Index<Imoji>;
 
   async Init() {
     this.templates = await GetTemplates();
