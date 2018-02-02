@@ -1,5 +1,6 @@
 import { expect } from "chai";
-import * as pkg from "../src/";
+import * as pkg from "../src/bitmoji";
+import {ImojiSearch} from "../src/bitmoji";
 
 describe("package", () => {
     describe("new ImojiSearch()", () => {
@@ -7,9 +8,23 @@ describe("package", () => {
             it("should return ten matches for a common phrase", async () => {
                 const im = new pkg.ImojiSearch();
                 await im.Init();
-
                 const matches = im.FindTemplates("happy birthday");
                 expect(matches.length).equal(10);
+            });
+
+            it("should filter to 'single' flags", async () => {
+                const im = new pkg.ImojiSearch();
+                await im.Init();
+                const matches = im.FindTemplates("happy birthday", "single");
+                expect(matches[0].src.split("%s").length).equal(2);
+            });
+
+            it("should filter to 'double' flags", async () => {
+                const im = new pkg.ImojiSearch();
+                await im.Init();
+                const matches = im.FindTemplates("sweet", "double");
+                console.log(matches[0]);
+                expect(matches[0].src.split("%s").length).equal(3);
             });
         });
     });
