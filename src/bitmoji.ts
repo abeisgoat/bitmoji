@@ -2,11 +2,6 @@ import * as fetch from "isomorphic-fetch";
 import { Imoji, Templates } from "./bitmoji.types";
 import { format } from "util";
 
-const API_HOST = "https://api.bitmoji.com";
-const API_PATHS = {
-  templates: "/content/templates?app_name=bitmoji"
-};
-
 export type CharacterID = string;
 
 export async function isBitmojiIDWeaklyValid(id: CharacterID) {
@@ -22,12 +17,6 @@ export async function isBitmojiIDStronglyValid(id: CharacterID) {
 }
 
 export const GetImojiURLFromTemplate = format;
-
-export async function GetTemplates() {
-  const url = `${API_HOST}${API_PATHS.templates}`;
-  const response = await fetch(url);
-  return (await response.json()) as Templates;
-}
 
 type TreeBranch<T> = { flags: string[]; data: T };
 
@@ -51,7 +40,7 @@ class Index<T> {
     });
   }
 
-  find(text: string, flag?: string, limit?: number) {
+  find(text: string, flag?: string, limit?: number): T[] {
     if (!limit) limit = 10;
 
     const results: T[] = [];
@@ -84,11 +73,20 @@ class Index<T> {
 }
 
 export class ImojiSearch {
+  api = {
+    host: "https://api.bitmoji.com",
+    paths: {
+      templates: "/content/templates?app_name=bitmoji"
+    }
+  };
+
   private templates: Templates;
   private index: Index<Imoji>;
 
-  async Init() {
-    this.templates = await GetTemplates();
+  async Init(host?: string) {
+    this.api.host = host || this.api.host;
+
+    this.templates = await this.GetTemplates();
     this.index = new Index();
     this.templates.imoji.forEach(imoji => {
       this.index.add(imoji, imoji.tags, ["single"]);
@@ -99,12 +97,24 @@ export class ImojiSearch {
     });
   }
 
-  FindTemplates(text: string, flag?: string) {
+  async GetTemplates() {
+    const url = `${this.api.host}${this.api.paths.templates}`;
+    const response = await fetch(url);
+    return (await response.json()) as Templates;
+  }
+
+  FindTemplates(text: string, flag?: string): Imoji[] {
     return this.index.find(text, flag);
   }
 
-  FindURLs(text: string, character_ids: CharacterID[]) {
-    return this.index.find(text, "single").map(match => {
+  FindURLs(text: string, character_ids: CharacterID[]): string[] {
+    let flag;
+    if (character_ids.length == 1) {
+      flag = "single";
+    } else {
+      flag = "double";
+    }
+    return this.index.find(text, flag).map(match => {
       const args = [match.src];
       args.concat(character_ids);
       return GetImojiURLFromTemplate.apply(undefined, args);

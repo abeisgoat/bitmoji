@@ -10,10 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const fetch = require("isomorphic-fetch");
 const util_1 = require("util");
-const API_HOST = "https://api.bitmoji.com";
-const API_PATHS = {
-    templates: "/content/templates?app_name=bitmoji"
-};
 function isBitmojiIDWeaklyValid(id) {
     return __awaiter(this, void 0, void 0, function* () {
         return id.split("_").length >= 2 && id.split("-").length == 2;
@@ -30,14 +26,6 @@ function isBitmojiIDStronglyValid(id) {
 }
 exports.isBitmojiIDStronglyValid = isBitmojiIDStronglyValid;
 exports.GetImojiURLFromTemplate = util_1.format;
-function GetTemplates() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const url = `${API_HOST}${API_PATHS.templates}`;
-        const response = yield fetch(url);
-        return (yield response.json());
-    });
-}
-exports.GetTemplates = GetTemplates;
 class Index {
     constructor() {
         this.most_words_in_tag = 0;
@@ -81,9 +69,18 @@ class Index {
     }
 }
 class ImojiSearch {
-    Init() {
+    constructor() {
+        this.api = {
+            host: "https://api.bitmoji.com",
+            paths: {
+                templates: "/content/templates?app_name=bitmoji"
+            }
+        };
+    }
+    Init(host) {
         return __awaiter(this, void 0, void 0, function* () {
-            this.templates = yield GetTemplates();
+            this.api.host = host || this.api.host;
+            this.templates = yield this.GetTemplates();
             this.index = new Index();
             this.templates.imoji.forEach(imoji => {
                 this.index.add(imoji, imoji.tags, ["single"]);
@@ -93,11 +90,25 @@ class ImojiSearch {
             });
         });
     }
+    GetTemplates() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const url = `${this.api.host}${this.api.paths.templates}`;
+            const response = yield fetch(url);
+            return (yield response.json());
+        });
+    }
     FindTemplates(text, flag) {
         return this.index.find(text, flag);
     }
     FindURLs(text, character_ids) {
-        return this.index.find(text, "single").map(match => {
+        let flag;
+        if (character_ids.length == 1) {
+            flag = "single";
+        }
+        else {
+            flag = "double";
+        }
+        return this.index.find(text, flag).map(match => {
             const args = [match.src];
             args.concat(character_ids);
             return exports.GetImojiURLFromTemplate.apply(undefined, args);

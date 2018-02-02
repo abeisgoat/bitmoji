@@ -1,6 +1,6 @@
 {
   "name": "bitmoji",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "",
   "main": "./dist/bitmoji.js",
   "types": "./dist/bitmoji.d.ts",
@@ -14,7 +14,7 @@
     "build-ts": "tsc --declaration",
     "watch-ts": "tsc -w",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
-    "fmt": "prettier --write **.js **.json"
+    "fmt": "prettier --write **.js **.json src/*.ts test/*.ts"
   },
   "author": "",
   "license": "ISC",
