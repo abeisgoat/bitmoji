@@ -1,8 +1,9 @@
 {
   "name": "bitmoji",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "",
-  "main": "dist/bitmoji.js",
+  "main": "./dist/bitmoji.js",
+  "types": "./dist/bitmoji.d.ts",
   "scripts": {
     "start": "npm run build && npm run watch",
     "build": "npm run fmt && npm run tslint && npm run build-ts",
