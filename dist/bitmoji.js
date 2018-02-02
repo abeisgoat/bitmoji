@@ -29,11 +29,17 @@ exports.GetImojiURLFromTemplate = util_1.format;
 class Index {
     constructor() {
         this.most_words_in_tag = 0;
+        // private shortest_word = Infinity;
         this.tree = {};
     }
     add(data, tags, flags) {
         tags.forEach(tag => {
-            this.most_words_in_tag = Math.max(this.most_words_in_tag, tag.split(" ").length);
+            const words = tag.split(" ");
+            this.most_words_in_tag = Math.max(this.most_words_in_tag, words.length);
+            // words.forEach((word) => {
+            //     this.shortest_word = Math.min(
+            //         this.shortest_word, word.length);
+            // });
             if (!this.tree[tag])
                 this.tree[tag] = [];
             this.tree[tag].push({
@@ -62,8 +68,8 @@ class Index {
                         return;
                     results.push(match.data);
                 });
-                number_of_words_considered--;
             }
+            number_of_words_considered--;
         }
         return results.slice(0, limit);
     }

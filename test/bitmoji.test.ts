@@ -12,6 +12,13 @@ describe("package", () => {
         expect(matches.length).equal(10);
       });
 
+      it("should return with unfound search", async () => {
+        const im = new pkg.ImojiSearch();
+        await im.Init();
+        const matches = im.FindTemplates("hap");
+        expect(matches.length).equal(0);
+      });
+
       it("should filter to 'single' flags", async () => {
         const im = new pkg.ImojiSearch();
         await im.Init();

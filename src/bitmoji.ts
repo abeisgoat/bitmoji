@@ -22,14 +22,20 @@ type TreeBranch<T> = { flags: string[]; data: T };
 
 class Index<T> {
   private most_words_in_tag = 0;
+  // private shortest_word = Infinity;
+
   private tree: { [s: string]: TreeBranch<T>[] } = {};
 
   add(data: T, tags: string[], flags: string[]) {
     tags.forEach(tag => {
-      this.most_words_in_tag = Math.max(
-        this.most_words_in_tag,
-        tag.split(" ").length
-      );
+      const words = tag.split(" ");
+
+      this.most_words_in_tag = Math.max(this.most_words_in_tag, words.length);
+
+      // words.forEach((word) => {
+      //     this.shortest_word = Math.min(
+      //         this.shortest_word, word.length);
+      // });
 
       if (!this.tree[tag]) this.tree[tag] = [];
 
@@ -64,8 +70,8 @@ class Index<T> {
 
           results.push(match.data);
         });
-        number_of_words_considered--;
       }
+      number_of_words_considered--;
     }
 
     return results.slice(0, limit);

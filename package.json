@@ -1,6 +1,6 @@
 {
   "name": "bitmoji",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "",
   "main": "./dist/bitmoji.js",
   "types": "./dist/bitmoji.d.ts",
